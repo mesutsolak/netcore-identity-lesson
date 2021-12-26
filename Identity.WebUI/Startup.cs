@@ -28,7 +28,7 @@ namespace Identity.WebUI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("IdentityExample")));
-            services.AddIdentity<ApplicationUser, IdentityRole>().
+            services.AddIdentity<ApplicationUser, ApplicationRole>().
                 AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddControllersWithViews();
