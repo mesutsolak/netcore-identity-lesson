@@ -2,6 +2,7 @@
 using Identity.WebUI.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Identity.WebUI.Controlles
@@ -36,6 +37,8 @@ namespace Identity.WebUI.Controlles
                 IdentityResult result = await _userManager.CreateAsync(appUser, applicationUserViewModel.Password);
                 if (result.Succeeded)
                     return RedirectToAction("Index");
+                else
+                    result.Errors.ToList().ForEach(e => ModelState.AddModelError(e.Code, e.Description));
             }
             return View();
         }

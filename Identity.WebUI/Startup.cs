@@ -1,17 +1,12 @@
-using Identity.Entities;
+﻿using Identity.Entities;
 using Identity.Entities.Models;
+using Identity.WebUI.CustomValidations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Identity.WebUI
 {
@@ -28,8 +23,13 @@ namespace Identity.WebUI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("IdentityExample")));
-            services.AddIdentity<ApplicationUser, ApplicationRole>().
-                AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options=> {
+                options.Password.RequiredLength = 5; //En az kaç karakterli olması gerektiğini belirtiyoruz.
+                options.Password.RequireNonAlphanumeric = false; //Alfanumerik zorunluluğunu kaldırıyoruz.
+                options.Password.RequireLowercase = false; //Küçük harf zorunluluğunu kaldırıyoruz.
+                options.Password.RequireUppercase = false; //Büyük harf zorunluluğunu kaldırıyoruz.
+                options.Password.RequireDigit = false; //0-9 arası sayısal karakter zorunluluğunu kaldırıyoruz.
+            }).AddPasswordValidator<CustomPasswordValidation>().AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddControllersWithViews();
         }
