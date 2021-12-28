@@ -23,13 +23,27 @@ namespace Identity.WebUI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("IdentityExample")));
-            services.AddIdentity<ApplicationUser, ApplicationRole>(options=> {
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+            {
                 options.Password.RequiredLength = 5; //En az kaç karakterli olması gerektiğini belirtiyoruz.
                 options.Password.RequireNonAlphanumeric = false; //Alfanumerik zorunluluğunu kaldırıyoruz.
                 options.Password.RequireLowercase = false; //Küçük harf zorunluluğunu kaldırıyoruz.
                 options.Password.RequireUppercase = false; //Büyük harf zorunluluğunu kaldırıyoruz.
                 options.Password.RequireDigit = false; //0-9 arası sayısal karakter zorunluluğunu kaldırıyoruz.
-            }).AddPasswordValidator<CustomPasswordValidation>().AddEntityFrameworkStores<ApplicationDbContext>();
+
+                /*
+                 Identity mekanizmasında UserName alanı değiştirilemez bir şekilde default olarak unique(tekil)tir.
+                 Identity mekanizmasında tüm varsayımsal ayarlar opsiyonel olarak değiştirilebilir değildir.
+                 */
+
+                options.User.RequireUniqueEmail = true; //Email adreslerini tekilleştiriyoruz.Normalde Identity'de tekil olma zorunluluğu yok.
+                options.User.AllowedUserNameCharacters = "abcçdefghiıjklmnoöpqrsştuüvwxyzABCÇDEFGHIİJKLMNOÖPQRSŞTUÜVWXYZ0123456789-._@+"; //Kullanıcı adında geçerli olan karakterleri belirtiyoruz.Türkçe karakter dahil.
+
+
+            }).AddPasswordValidator<CustomPasswordValidation>()
+              .AddUserValidator<CustomUserValidation>()
+              .AddErrorDescriber<CustomIdentityErrorDescriber>()
+              .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddControllersWithViews();
         }
