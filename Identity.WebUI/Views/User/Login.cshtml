@@ -1,22 +1,16 @@
-﻿@model ApplicationUserViewModel
-@{
-    ViewBag.Title = "Kayıt Ol";
+﻿@model Identity.WebUI.ViewModels.LoginViewModel
+@{ 
+    ViewBag.Title = "Login";
 }
 
 <div class="container-fluid">
 
-    <h3>Üye Ol</h3>
-
+    <h4>Giriş Yap</h4>
     <hr />
-    <form asp-action="SignIn">
+    <form asp-action="Login">
         <table>
             <tr>
                 <td colspan="3"><div asp-validation-summary="All"></div></td>
-            </tr>
-            <tr>
-                <td><label asp-for="UserName"></label></td>
-                <td><input asp-for="UserName" /></td>
-                <td><span asp-validation-for="UserName"></span></td>
             </tr>
             <tr>
                 <td><label asp-for="Email"></label></td>
@@ -29,9 +23,16 @@
                 <td><span asp-validation-for="Password"></span></td>
             </tr>
             <tr>
-                <td colspan="3"><input type="submit" value="Üye Ol" /></td>
+                <td><label asp-for="Persistent"></label></td>
+                <td><input asp-for="Persistent" /></td>
+                <td><span asp-validation-for="Persistent"></span></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Giriş Yap" /></td>
+                <td>
+                    <button type="button" class="btn btn-primary"><a class="text-white" asp-action="SignIn" asp-controller="User">Kayıt</a></button>
+                </td>
             </tr>
         </table>
     </form>
-
 </div>

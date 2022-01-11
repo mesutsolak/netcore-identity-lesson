@@ -1,0 +1,26 @@
+﻿@model IQueryable<Identity.Entities.Models.ApplicationUser>
+@{
+    ViewBag.Title = "Kullanıcılar";
+}
+
+<div class="container-fluid">
+
+    <table class="table">
+        <thead class="table-dark">
+            <tr>
+                <th>Kullanıcı Adı</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var applicationUser in Model)
+            {
+              <tr>
+                  <td>@applicationUser.UserName</td>
+                  <td>@applicationUser.Email</td>
+              </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
