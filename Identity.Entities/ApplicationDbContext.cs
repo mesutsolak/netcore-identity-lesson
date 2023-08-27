@@ -8,6 +8,7 @@ namespace Identity.Entities
     ///   “IdentityDbContext” sınıfına generic olarak user modelinde “ApplicationUser” sınıfının, role modelinde ise “ApplicationRole” 
     ///   sınıfının kullanılacağını belirtmiş oluyoruz. 3. parametrede ise bu yapılanmanın primary key (Id) kolonlarının
     ///   “string” tipte değerlerle tutulacağını ifade etmiş oluyoruz.
+    ///   İsimlendirmelerini App olarak kısaltarak'da ilerletebilirsin.
     /// </summary>
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {

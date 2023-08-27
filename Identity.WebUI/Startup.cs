@@ -1,6 +1,8 @@
 ﻿using Identity.Entities;
 using Identity.Entities.Models;
 using Identity.WebUI.CustomValidations;
+using Identity.WebUI.Security.Token;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -9,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using System;
 
 namespace Identity.WebUI
@@ -22,10 +25,11 @@ namespace Identity.WebUI
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        // ConfigureServices metot eklerken sırasıyla eklenmesi oldukça önemlidir.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("IdentityExample")));
+
             services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
                 options.Password.RequiredLength = 5; //En az kaç karakterli olması gerektiğini belirtiyoruz.
@@ -47,8 +51,43 @@ namespace Identity.WebUI
             }).AddPasswordValidator<CustomPasswordValidation>()
               .AddUserValidator<CustomUserValidation>()
               .AddErrorDescriber<CustomIdentityErrorDescriber>()
-              .AddEntityFrameworkStores<ApplicationDbContext>()
-              .AddDefaultTokenProviders();
+              .AddEntityFrameworkStores<ApplicationDbContext>() // Bilgilerin nereye kaydedileceğini addentityframeworkstores diyerek bulabiliriz.
+              .AddDefaultTokenProviders(); // Json web tokenı kendin yazmak istediğin zaman burayı kaldırabilirisn.Aksi halde otomatik bir json web token mantığını kullanmak istiyorsan bunu eklemelisin.
+
+            /*
+             * 
+             *  Default şemalar belirtiyoruz çünkü farklı şemalarda da login olma işlemlerini gerçekleştirebilirsin.
+                Uygulamanın kendi authentication şemasını aşağıdaki şekilde belirtebiliyoruz.
+                Ayrıca token bazlı authentication şemasıda belirtmeliyiz.Bunun nedeni uygulamanın şeması ile
+                token authentication şemasının aynı olmasını sağlamaktır.Aynı olmalıki üyelik sistemi ile json web token beraber
+                çalışabilsinler.
+             */
+
+            services.AddAuthentication(opts =>
+            {
+                opts.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opts.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme; //Krıtik parametre
+
+            }).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwtBearerOptions =>
+            {
+                // Token bazlı authentication şeması için
+                services.Configure<CustomTokenOptions>(Configuration.GetSection("TokenOptions"));
+                var tokenOptions = Configuration.GetSection("TokenOptions").Get<CustomTokenOptions>();
+
+
+                jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateAudience = true,
+                    ValidateIssuer = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = tokenOptions.Issuer,
+                    ValidAudience = tokenOptions.Audience,
+                    IssuerSigningKey = SignHandler.GetSecurityKey(tokenOptions.SecurityKey),
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
+
 
             services.ConfigureApplicationCookie(options =>
             {
@@ -96,7 +135,7 @@ namespace Identity.WebUI
             {
                 endpoints.MapControllerRoute(name: "default",
                                              pattern: "{controller=User}/{action=Home}/{id?}");
-                
+
             });
         }
     }
