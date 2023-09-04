@@ -1,5 +1,6 @@
-﻿using Identity.Entities.Models;
-using Identity.WebUI.ViewModels;
+﻿using Identity.Data.Entities;
+using Identity.WebUI.ViewModels.Authentication;
+using Identity.WebUI.ViewModels.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -96,7 +97,7 @@ namespace Identity.WebUI.Controlles
         }
 
         [HttpPost]
-        public async Task<IActionResult> SignIn(ApplicationUserViewModel applicationUserViewModel)
+        public async Task<IActionResult> SignIn(UserViewModel applicationUserViewModel)
         {
             if (ModelState.IsValid)
             {

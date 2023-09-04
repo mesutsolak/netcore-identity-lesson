@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>Identity.WebUI</AssemblyName>
+    <RootNamespace>Identity.WebUI</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,10 +23,16 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Identity.Entities\Identity.Entities.csproj" />
+    <ProjectReference Include="..\Identity.Core\Identity.Core.csproj" />
+    <ProjectReference Include="..\Identity.Data\Identity.Data.csproj" />
+    <ProjectReference Include="..\Identity.Domain\Identity.Domain.csproj" />
   </ItemGroup>
 
 </Project>

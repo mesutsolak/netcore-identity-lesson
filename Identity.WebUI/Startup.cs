@@ -1,7 +1,8 @@
-﻿using Identity.Entities;
-using Identity.Entities.Models;
+﻿using Identity.Core.Helpers.Abstract;
+using Identity.Data.DbContexts;
+using Identity.Data.Entities;
+using Identity.Domain.Settings;
 using Identity.WebUI.CustomValidations;
-using Identity.WebUI.Security.Token;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,7 +29,8 @@ namespace Identity.WebUI
         // ConfigureServices metot eklerken sırasıyla eklenmesi oldukça önemlidir.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("IdentityExample")));
+            // Veritabanı bağlantısını gerçekleştirelim.
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString(nameof(ApplicationDbContext))));
 
             services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
@@ -48,9 +50,9 @@ namespace Identity.WebUI
                 options.User.AllowedUserNameCharacters = "abcçdefghiıjklmnoöpqrsştuüvwxyzABCÇDEFGHIİJKLMNOÖPQRSŞTUÜVWXYZ0123456789-._@+"; //Kullanıcı adında geçerli olan karakterleri belirtiyoruz.Türkçe karakter dahil.
 
 
-            }).AddPasswordValidator<CustomPasswordValidation>()
-              .AddUserValidator<CustomUserValidation>()
-              .AddErrorDescriber<CustomIdentityErrorDescriber>()
+            }).AddPasswordValidator<PasswordValidation>()
+              .AddUserValidator<UserValidation>()
+              .AddErrorDescriber<IdentityErrorDescriber>()
               .AddEntityFrameworkStores<ApplicationDbContext>() // Bilgilerin nereye kaydedileceğini addentityframeworkstores diyerek bulabiliriz.
               .AddDefaultTokenProviders(); // Json web tokenı kendin yazmak istediğin zaman burayı kaldırabilirisn.Aksi halde otomatik bir json web token mantığını kullanmak istiyorsan bunu eklemelisin.
 
@@ -71,9 +73,11 @@ namespace Identity.WebUI
             }).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwtBearerOptions =>
             {
                 // Token bazlı authentication şeması için
-                services.Configure<CustomTokenOptions>(Configuration.GetSection("TokenOptions"));
-                var tokenOptions = Configuration.GetSection("TokenOptions").Get<CustomTokenOptions>();
 
+                var serviceProvider = services.BuildServiceProvider();
+
+                var tokenSetting = serviceProvider.GetRequiredService<ITokenSetting>();
+                var securityHelper = serviceProvider.GetRequiredService<ISecurityHelper>();
 
                 jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -81,9 +85,9 @@ namespace Identity.WebUI
                     ValidateIssuer = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = tokenOptions.Issuer,
-                    ValidAudience = tokenOptions.Audience,
-                    IssuerSigningKey = SignHandler.GetSecurityKey(tokenOptions.SecurityKey),
+                    ValidIssuer = tokenSetting.Issuer,
+                    ValidAudience = tokenSetting.Audience,
+                    IssuerSigningKey = securityHelper.GetSecurityKey(tokenSetting.SecurityKey),
                     ClockSkew = TimeSpan.Zero
                 };
             });
@@ -121,7 +125,6 @@ namespace Identity.WebUI
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
-
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
