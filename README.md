@@ -36,6 +36,16 @@ Kullanılan **_Manager_** ismi var olan **repository** sınıflarına daha kolay
 * Ad Yazdırma
 * Login Olma
 * Logout Olma
-* Rol İşlemleri
-* Claim İşlemleri
+* Rol Bazlı Yetkilendirme
+* Claim Bazlı Yetkilendirme
 * Kullanıcı İşlemleri
+* Üçüncü Taraf Kimlik Doğrulaması (Google Authenticator veya LastPass gibi)
+
+## Kaynaklar
+
+* https://www.tektutorialshub.com/asp-net-core/asp-net-core-identity-tutorial/
+* https://www.gencayyildiz.com/blog/asp-net-core-identity-yazi-dizisi/
+
+## Kurslar
+
+* Fatih Çakıroğlu : Asp.Net Core Üyelik Sistemi+Token Bazlı Kimlik Doğrulama
