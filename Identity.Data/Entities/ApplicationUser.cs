@@ -4,6 +4,7 @@ namespace Identity.Data.Entities
 {
     public sealed class ApplicationUser : IdentityUser
     {
+        public string Picture { get; set; }
         public string HomeTown { get; set; }
         public bool Gender { get; set; }
     }
