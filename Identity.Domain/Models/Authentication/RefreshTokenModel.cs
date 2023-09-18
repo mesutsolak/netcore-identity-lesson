@@ -2,5 +2,6 @@
 {
     public sealed class RefreshTokenModel : BaseModel
     {
+        public string RefreshToken { get; set; }
     }
 }

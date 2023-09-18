@@ -68,7 +68,7 @@ namespace Identity.WebUI
             services.AddAuthentication(opts =>
             {
                 opts.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                opts.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme; //Krıtik parametre
+                opts.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme; //Krıtik parametre ve birleştirmeyi yapan parametredir.
 
             }).AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwtBearerOptions =>
             {

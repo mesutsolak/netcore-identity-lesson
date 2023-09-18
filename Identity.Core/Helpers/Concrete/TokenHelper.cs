@@ -52,12 +52,6 @@ namespace Identity.Core.Helpers.Concrete
         {
             throw new NotImplementedException();
         }
-
-        BaseResult<AccessTokenResult> ITokenHelper.CreateAccessToken(CreateAccessTokenModel createAccessTokenModel)
-        {
-            throw new NotImplementedException();
-        }
-
         private string CreateRefreshToken()
         {
             var numberByte = new byte[32];

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Identity.WebUI.Controlles
 {
-    public class UserController : Controller
+    public sealed class UserController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
