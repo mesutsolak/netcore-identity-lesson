@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Identity.Domain.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Identity.WebUI.ViewModels.User

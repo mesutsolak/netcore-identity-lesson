@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Identity.Domain.Enums;
+using Microsoft.AspNetCore.Identity;
 
 namespace Identity.Data.Entities
 {
@@ -6,6 +7,6 @@ namespace Identity.Data.Entities
     {
         public string Picture { get; set; }
         public string HomeTown { get; set; }
-        public bool Gender { get; set; }
+        public Gender Gender { get; set; }
     }
 }
