@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Identity.WebUI.CustomValidations
+namespace Identity.Data.CustomValidations
 {
     public class PasswordValidation : IPasswordValidator<ApplicationUser>
     {

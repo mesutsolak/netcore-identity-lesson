@@ -7,9 +7,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.WebUI", "Identity.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Data", "Identity.Data\Identity.Data.csproj", "{9BFAA500-955C-4DED-9092-2F6783D8963A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Core", "Identity.Core\Identity.Core.csproj", "{9DCE567C-4459-4AE3-9BBD-593EAF76E910}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Core", "Identity.Core\Identity.Core.csproj", "{9DCE567C-4459-4AE3-9BBD-593EAF76E910}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity.Domain", "Identity.Domain\Identity.Domain.csproj", "{DABF3686-E867-4C94-85A6-8C6B6DF7A77C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Domain", "Identity.Domain\Identity.Domain.csproj", "{DABF3686-E867-4C94-85A6-8C6B6DF7A77C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{10573F39-3C99-45C1-AAE5-E43377D6548C}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

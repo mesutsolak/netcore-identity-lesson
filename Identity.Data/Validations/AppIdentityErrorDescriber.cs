@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Identity.WebUI.CustomValidations
+namespace Identity.Data.CustomValidations
 {
     public class AppIdentityErrorDescriber : IdentityErrorDescriber
     {

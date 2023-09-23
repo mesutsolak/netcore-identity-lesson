@@ -1,15 +1,13 @@
-﻿using Identity.Domain.Settings;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Options;
 using System;
 
-namespace Identity.Domain.IOC
+namespace Identity.Data.IOC
 {
     public static class ServiceCollectionContainerBuilderExtensions
     {
-        public static IServiceCollection AddSettings(this IServiceCollection services)
+        public static IServiceCollection AddMsSqlServerDbContext<TContext>(this IServiceCollection services, string connectionName) where TContext : DbContext
         {
             var serviceProvider = services.BuildServiceProvider();
 
@@ -18,9 +16,7 @@ namespace Identity.Domain.IOC
 
             var configuration = serviceProvider.GetRequiredService<IConfiguration>();
 
-            services.Configure<TokenSetting>(tokenSetting => configuration.GetRequiredSection(nameof(TokenSetting)).Bind(tokenSetting));
-
-            services.TryAddSingleton<ITokenSetting>(provider => provider.GetRequiredService<IOptions<TokenSetting>>().Value);
+            services.AddDbContext<TContext>(options => options.UseSqlServer(configuration.GetConnectionString(connectionName)));
 
             return services;
         }
