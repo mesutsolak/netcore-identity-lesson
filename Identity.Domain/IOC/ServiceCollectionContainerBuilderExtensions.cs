@@ -16,12 +16,6 @@ namespace Identity.Domain.IOC
             if (serviceProvider is null)
                 throw new NullReferenceException(nameof(serviceProvider));
 
-            var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-
-            services.Configure<TokenSetting>(tokenSetting => configuration.GetRequiredSection(nameof(TokenSetting)).Bind(tokenSetting));
-
-            services.TryAddSingleton<ITokenSetting>(provider => provider.GetRequiredService<IOptions<TokenSetting>>().Value);
-
             return services;
         }
     }

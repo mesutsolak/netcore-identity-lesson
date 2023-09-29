@@ -38,6 +38,7 @@ namespace Identity.WebUI
             app.UseStatusCodePages();
             app.UseRouting();
 
+
             app.UseAuthentication();
             app.UseAuthorization();
 

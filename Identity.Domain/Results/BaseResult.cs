@@ -1,4 +1,7 @@
-﻿namespace Identity.Domain.Results
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace Identity.Domain.Results
 {
     /// <summary>
     /// 
@@ -9,18 +12,23 @@
     public sealed class BaseResult<T> : IBaseResult where T : class, new()
     {
         public T Data { get; set; }
-        public bool Success { get; set; }
-        public string Message { get; set; }
-        
+        public bool IsSuccess { get; set; }
+        public List<string> Messages { get; set; } = new List<string>();
+
         public BaseResult(T data = null)
         {
             Data = data;
-            Success = true;
+            IsSuccess = true;
         }
 
         public BaseResult(string message)
         {
-            Message = message;
+            Messages.Add(message);
+        }
+
+        public BaseResult(IEnumerable<string> messages)
+        {
+            Messages = messages.ToList();
         }
     }
     public interface IBaseResult

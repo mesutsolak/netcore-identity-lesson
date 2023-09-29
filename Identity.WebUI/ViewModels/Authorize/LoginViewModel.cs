@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Identity.WebUI.ViewModels.Authentication
+namespace Identity.WebUI.ViewModels.Authorize
 {
     public sealed class LoginViewModel : BaseViewModel
     {

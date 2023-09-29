@@ -1,4 +1,4 @@
-﻿namespace Identity.Domain.Models.Authentication
+﻿namespace Identity.Domain.Models.Authorize
 {
     public sealed class RegisterModel : BaseModel
     {

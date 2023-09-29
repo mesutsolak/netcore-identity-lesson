@@ -1,6 +1,6 @@
 ﻿using Identity.Data.Dtos.User;
 
-namespace Identity.Domain.Results.Authentication
+namespace Identity.Domain.Results.Authorize
 {
     public sealed class RegisterResult
     {

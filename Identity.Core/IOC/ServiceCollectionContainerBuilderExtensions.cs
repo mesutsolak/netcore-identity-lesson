@@ -14,9 +14,7 @@ namespace Identity.Core.IOC
     {
         public static IServiceCollection AddHelpers(this IServiceCollection services)
         {
-            services.AddScoped<IAuthenticationHelper, AuthenticationHelper>();
-            services.AddScoped<ISecurityHelper, SecurityHelper>();
-            services.AddScoped<ITokenHelper, TokenHelper>();
+            services.AddScoped<IAuthorizeHelper, AuthorizeHelper>();
             services.AddScoped<IUserHelper, UserHelper>();
 
             return services;
@@ -53,13 +51,10 @@ namespace Identity.Core.IOC
               .AddEntityFrameworkStores<TContext>() // Bilgilerin nereye kaydedileceğini addentityframeworkstores diyerek bulabiliriz.
               .AddDefaultTokenProviders(); // Json web tokenı kendin yazmak istediğin zaman burayı kaldırabilirisn.Aksi halde otomatik bir json web token mantığını kullanmak istiyorsan bunu eklemelisin.
 
-           
-
-
             services.ConfigureApplicationCookie(options =>
             {
-                options.LogoutPath = new PathString("/User/Logout");
-                options.LoginPath = new PathString("/User/Login");
+                options.LogoutPath = new PathString("/Authentication/Logout");
+                options.LoginPath = new PathString("/Authentication/Login");
                 options.Cookie = new CookieBuilder
                 {
                     Name = "AspNetCoreIdentityExampleCookie", //Oluşturulacak Cookie'yi isimlendiriyoruz.
