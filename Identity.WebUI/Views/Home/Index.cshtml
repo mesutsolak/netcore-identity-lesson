@@ -1,11 +1,11 @@
-﻿@{
+﻿@model HomeViewModel
+@{
     ViewBag.Title = "Ana Sayfa";
 }
 
 <div class="container-fluid">
-
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Identity</a>
+        <a class="navbar-brand" href="/">@User.Identity.Name</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -21,9 +21,13 @@
                     <a class="nav-link" href="#">Pricing</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" asp-action="Register" asp-controller="Authorize" asp-route-returnUrl="/Authorize/Register">Çıkış Yap</a>
+                    <button class="nav-link" id="btnLogout">Çıkış Yap</button>
                 </li>
             </ul>
         </div>
     </nav>
 </div>
+
+@section js{
+    <script src="~/js/pages/home.js"></script>
+}

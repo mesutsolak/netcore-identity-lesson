@@ -2,7 +2,9 @@
 
 <html>
 <head>
-    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/libraries/sweetalert2.min.css" rel="stylesheet" />
+    <link href="~/css/libraries/bootstrap.min.css" rel="stylesheet" />
+    @RenderSection("css", false)
     <link href="~/css/main.css" rel="stylesheet" />
     <title>@ViewBag.Title</title>
 </head>
@@ -11,10 +13,13 @@
         @RenderBody()
     </div>
 
-    <script src="~/js/jquery.min.js"></script>
-    <script src="~/js/jquery.validate.min.js"></script>
-    <script src="~/js/jquery.validate.unobtrusive.min.js"></script>
-    <script src="~/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/libraries/jquery.min.js"></script>
+    <script src="~/js/libraries/jquery.validate.min.js"></script>
+    <script src="~/js/libraries/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/libraries/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/libraries/sweetalert2.min.js"></script>
+    <script src="~/js/libraries/bootstrap.bundle.min.js"></script>
+    @RenderSection("js", false)
     <script src="~/js/site.js"></script>
 </body>
 </html>

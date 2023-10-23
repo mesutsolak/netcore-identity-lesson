@@ -1,16 +1,20 @@
 ﻿@model LoginViewModel
-@{ 
+@{
     ViewBag.Title = "Login";
 }
 
 <div class="container-fluid">
-
     <h4>Giriş Yap</h4>
     <hr />
-    <form asp-action="Login">
+    <form asp-controller="Authorize" data-ajax="true" asp-action="Login"
+          data-ajax-begin="onBegin" data-ajax-failure="onFailure"
+          data-ajax-success="onSuccess" id="loginForm" data-ajax-method="Post"
+          class="form w-100" novalidate="novalidate">
         <table>
             <tr>
-                <td colspan="3"><div asp-validation-summary="All"></div></td>
+                <td colspan="3">
+                    <div class="error-messages"></div>
+                </td>
             </tr>
             <tr>
                 <td><label asp-for="Email"></label></td>
@@ -30,7 +34,9 @@
             <tr>
                 <td><input type="submit" value="Giriş Yap" /></td>
                 <td>
-                    <button type="button" class="btn btn-primary"><a class="text-white" asp-action="Register" asp-controller="Authorize">Kayıt</a></button>
+                    <button type="button" class="btn btn-primary">
+                        <a class="text-white" asp-action="Register" asp-controller="Authorize">Kayıt</a>
+                    </button>
                 </td>
             </tr>
         </table>

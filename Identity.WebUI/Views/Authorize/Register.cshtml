@@ -8,10 +8,18 @@
     <h3>Üye Ol</h3>
 
     <hr />
-    <form asp-action="SignIn">
+    <form asp-controller="Authorize" data-ajax="true" asp-action="Register"
+          data-ajax-begin="onBegin" data-ajax-failure="onFailure"
+          data-ajax-success="onSuccess" id="loginForm" data-ajax-method="Post"
+          class="form w-100" novalidate="novalidate">
+
+        @Html.AntiForgeryToken()
+
         <table>
             <tr>
-                <td colspan="3"><div asp-validation-summary="All"></div></td>
+                <td colspan="3">
+                    <div class="error-messages"></div>
+                </td>
             </tr>
             <tr>
                 <td><label asp-for="UserName"></label></td>

@@ -45,7 +45,7 @@ namespace Identity.WebUI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(name: "default",
-                                             pattern: "{controller=User}/{action=Home}/{id?}");
+                                             pattern: "{controller=Home}/{action=Index}/{id?}");
 
             });
         }

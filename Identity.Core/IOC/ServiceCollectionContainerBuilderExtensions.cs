@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Globalization;
+using System.Reflection;
 
 namespace Identity.Core.IOC
 {
@@ -53,11 +55,11 @@ namespace Identity.Core.IOC
 
             services.ConfigureApplicationCookie(options =>
             {
-                options.LogoutPath = new PathString("/Authentication/Logout");
-                options.LoginPath = new PathString("/Authentication/Login");
+                options.LogoutPath = new PathString("/Authorize/Logout");
+                options.LoginPath = new PathString("/Authorize/Login");
                 options.Cookie = new CookieBuilder
                 {
-                    Name = "AspNetCoreIdentityExampleCookie", //Oluşturulacak Cookie'yi isimlendiriyoruz.
+                    Name = Assembly.GetEntryAssembly().GetName().Name.ToLower(CultureInfo.InvariantCulture),
                     HttpOnly = false, //Kötü niyetli insanların client-side tarafından Cookie'ye erişmesini engelliyoruz.
                     //Expiration = TimeSpan.FromMinutes(20), //Oluşturulacak Cookie'nin vadesini belirliyoruz.
                     SameSite = SameSiteMode.Lax, //Top level navigasyonlara sebep olmayan requestlere Cookie'nin gönderilmemesini belirtiyoruz.

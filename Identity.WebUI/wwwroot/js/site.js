@@ -28,7 +28,7 @@ function onFailure(response) {
 function onSuccess(response) {
     let errorMessages = "";
 
-    $(".error-definition").html("");
+    $(".error-messages").html("");
     $(".modal-error-messages").html("");
 
     hideProgress();

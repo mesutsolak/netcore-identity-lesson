@@ -2,6 +2,7 @@
 using Identity.Domain.Constants;
 using Identity.Domain.Models.Authorize;
 using Identity.WebUI.ViewModels.Authorize;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Identity.WebUI.Controlles
 {
+    [AllowAnonymous]
     public sealed class AuthorizeController : BaseController
     {
         private readonly IAuthorizeHelper _authorizeHelper;
@@ -28,16 +30,16 @@ namespace Identity.WebUI.Controlles
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
-
             var registerResult = await _authorizeHelper.RegisterAsync(new RegisterModel
             {
                 Email = registerViewModel.Email,
+                UserName = registerViewModel.UserName,
                 Password = registerViewModel.Password
             });
 
             if (registerResult.IsSuccess)
             {
-                jsonResponseModel.Url = "Home/Index";
+                jsonResponseModel.Url = Url.Action("Index", "Home");
             }
             else
             {
@@ -50,12 +52,13 @@ namespace Identity.WebUI.Controlles
         [HttpGet]
         public IActionResult Login(string returnUrl)
         {
+            TempData["returnUrl"] = returnUrl;
+
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction();
+                return RedirectToAction(ActionName.Index, ControllerName.Home);
             }
 
-            TempData["returnUrl"] = returnUrl;
             return View();
         }
 
@@ -83,14 +86,15 @@ namespace Identity.WebUI.Controlles
                 jsonResponseModel.Url = string.IsNullOrWhiteSpace(returnUrl) ? Url.Action(ActionName.Index, ControllerName.Home) : returnUrl;
             }
             else
+            {
                 jsonResponseModel.Errors = loginResult.Messages;
+            }
 
-            return View();
+            return Json(jsonResponseModel);
         }
 
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [Authorize]
+        [HttpGet]
         public async Task<IActionResult> Logout()
         {
             var logoutResult = await _authorizeHelper.LogoutAsync();

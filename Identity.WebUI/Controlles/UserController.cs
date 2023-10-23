@@ -17,17 +17,11 @@ namespace Identity.WebUI.Controlles
             _signInManager = signInManager;
         }
 
-       
-
         [Authorize]
         public IActionResult Members()
         {
             return View(_userManager.Users);
         }
-    
-
-     
-
       
         [Authorize]
         public IActionResult Home()
